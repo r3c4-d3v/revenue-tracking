@@ -1,17 +1,17 @@
 import "../../scss/app.scss";
 
 import {
-    React,
-    Tabs,
-    Tab,
-    TabPanel,
     Box,
-    ApplicationLogo,
+    Tab,
+    Tabs,
+    React,
+    TabPanel,
     GridOnIcon,
     AddBoxIcon,
+    BasicDatePicker,
+    ApplicationLogo,
     useTabChangeManager,
 } from "@/Barrels/App";
-import BasicDatePicker from "@/Components/BasicDatePicker";
 
 const App: React.FC = () => {
     const { selectedTab, handleTabChange } = useTabChangeManager();
