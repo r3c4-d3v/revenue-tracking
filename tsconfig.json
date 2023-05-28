@@ -12,7 +12,7 @@
         "noEmit": true,
         "paths": {
             "@/*": ["./resources/js/*"],
-            "@/Barrels/*": ["./resources/js/Barrels/*.tsx"],
+            "@/Barrels/*": ["./resources/js/Barrels/*"],
             "@/Styles/*": ["./resources/scss/*.scss"]
         },
         "allowSyntheticDefaultImports": true
