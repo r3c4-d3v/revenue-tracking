@@ -6,7 +6,7 @@ import {
     StrictMode,
     createRoot,
     RootElementProps,
-} from "@/Barrels/App";
+} from "@/Barrels/Components/App";
 
 const rootElement: RootElementProps = document.getElementById("root");
 

@@ -2,7 +2,7 @@ import {
     ApplicationLogoSvg,
     LogoProps,
     svgShape,
-} from "@/Barrels/ApplicationLogo";
+} from "@/Barrels/Components/ApplicationLogo";
 
 const ApplicationLogo = (props: LogoProps): ApplicationLogoSvg => (
     <svg {...props} viewBox="0 0 316 316" xmlns="http://www.w3.org/2000/svg">

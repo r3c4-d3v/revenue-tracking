@@ -3,7 +3,7 @@ import forms from "@tailwindcss/forms";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    darkMode: 'class',
+    darkMode: "class",
     content: [
         "./resources/js/**/*.tsx",
         "./storage/framework/views/*.php",
@@ -14,6 +14,9 @@ export default {
         extend: {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                "custom-blue-900": "rgb(25,118,210)",
             },
         },
     },

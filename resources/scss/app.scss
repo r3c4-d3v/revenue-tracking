@@ -32,14 +32,15 @@
             @apply h-16
             w-auto
             bg-gray-100
-            fill-red-600;
+            fill-custom-blue-900;
         }
 
         & > .wrapper > .title {
-            @apply text-center
+            @apply pt-3
+            text-center
             text-xl
             font-semibold
-            text-gray-900;
+            text-custom-blue-900;
         }
 
         & > .wrapper .content {
@@ -64,6 +65,10 @@
             focus:outline
             focus:outline-2
             focus:outline-red-500;
+        }
+
+        & > .wrapper > .content > .wrapper > .tabs {
+            @apply flex flex-wrap;
         }
 
         & > .wrapper > .content > .footer {
