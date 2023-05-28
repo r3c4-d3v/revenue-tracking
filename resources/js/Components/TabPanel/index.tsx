@@ -1,7 +1,4 @@
-import { Box } from "@mui/material";
-import { TabPanelProps } from "@/types/components";
-import React from "react";
-type TabPanelElement = React.JSX.Element;
+import { TabPanelProps, TabPanelElement, Box } from "@/Barrels/TabPanel";
 
 const TabPanel = (props: TabPanelProps): TabPanelElement => {
     const { value, index, others, children } = props;

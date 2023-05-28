@@ -1,20 +1,19 @@
 import "../../scss/app.scss";
-import React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import GridOnIcon from "@mui/icons-material/GridOn";
 
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import { Box } from "@mui/material";
-import TabPanel from "@/Components/TabPanel";
+import {
+    React,
+    Tabs,
+    Tab,
+    TabPanel,
+    Box,
+    ApplicationLogo,
+    GridOnIcon,
+    AddBoxIcon,
+    useTabChangeManager,
+} from "@/Barrels/App";
 
 const App: React.FC = () => {
-    const [selectedTab, setSelectedTab] = React.useState<number>(0);
-
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setSelectedTab(newValue);
-    };
+    const { selectedTab, handleTabChange } = useTabChangeManager();
 
     return (
         <React.Fragment>
@@ -29,16 +28,16 @@ const App: React.FC = () => {
                                 <Tabs
                                     value={selectedTab}
                                     variant="fullWidth"
-                                    onChange={handleChange}
+                                    onChange={handleTabChange}
                                     aria-label="tabs"
                                 >
                                     <Tab
-                                        aria-label="New entry"
                                         icon={<AddBoxIcon />}
+                                        aria-label="New entry"
                                     />
                                     <Tab
-                                        aria-label="List entries"
                                         icon={<GridOnIcon />}
+                                        aria-label="List entries"
                                     />
                                 </Tabs>
                                 <TabPanel index={0} value={selectedTab}>

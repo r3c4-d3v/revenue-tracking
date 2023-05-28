@@ -1,12 +1,15 @@
-import "./bootstrap";
-
 import {
     App,
     Root,
+    axios,
     StrictMode,
     createRoot,
     RootElementProps,
-} from "@/Barrels/Components/App";
+} from "@/Barrels/Bootstrap";
+
+window.axios = axios;
+
+window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 const rootElement: RootElementProps = document.getElementById("root");
 
