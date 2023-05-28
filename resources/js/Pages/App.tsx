@@ -42,7 +42,7 @@ const App: React.FC = () => {
                                     />
                                 </Tabs>
                                 <TabPanel index={0} value={selectedTab}>
-                                    <BasicDatePicker />
+                                    <BasicDatePicker label="Date" />
                                 </TabPanel>
                                 <TabPanel index={1} value={selectedTab}>
                                     Item Two

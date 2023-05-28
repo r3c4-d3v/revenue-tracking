@@ -13,3 +13,7 @@ export interface TabPanelProps {
     value: number;
     others?: {};
 }
+
+export interface BasicDatePickerProps {
+    label: string;
+}

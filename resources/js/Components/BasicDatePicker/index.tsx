@@ -1,13 +1,18 @@
-import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import {
+    DatePicker,
+    DemoContainer,
+    AdapterDateFns,
+    LocalizationProvider,
+    BasicDatePickerProps,
+} from "@/Barrels/BasicDatePicker";
 
-const BasicDatePicker = () => {
+const BasicDatePicker = (props: BasicDatePickerProps) => {
+    const { label } = props;
+
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DemoContainer components={["DatePicker"]}>
-                <DatePicker label="Basic date picker" />
+                <DatePicker label={label} />
             </DemoContainer>
         </LocalizationProvider>
     );
