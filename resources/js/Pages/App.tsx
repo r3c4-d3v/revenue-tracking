@@ -1,4 +1,4 @@
-import "../../scss/home.scss";
+import "../../scss/app.scss";
 import React from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo/ApplicationLogo";
 
@@ -16,7 +16,8 @@ const App: React.FC = () => (
                     <div className="copyright">
                         <a className="link" href="https://github.com/r3c4-d3v">
                             <span className="icon">&hearts;</span>
-                            <span className="description">Made with love</span>
+
+                            <span className="text">Made with love</span>
                         </a>
                     </div>
                 </footer>

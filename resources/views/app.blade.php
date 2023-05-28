@@ -12,6 +12,11 @@
         rel="stylesheet"
         href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap"
     />
+    <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+
 
     <!-- Scripts -->
     @viteReactRefresh
