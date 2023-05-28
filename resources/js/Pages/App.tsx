@@ -11,6 +11,7 @@ import {
     AddBoxIcon,
     useTabChangeManager,
 } from "@/Barrels/App";
+import BasicDatePicker from "@/Components/BasicDatePicker";
 
 const App: React.FC = () => {
     const { selectedTab, handleTabChange } = useTabChangeManager();
@@ -41,7 +42,7 @@ const App: React.FC = () => {
                                     />
                                 </Tabs>
                                 <TabPanel index={0} value={selectedTab}>
-                                    Item One
+                                    <BasicDatePicker />
                                 </TabPanel>
                                 <TabPanel index={1} value={selectedTab}>
                                     Item Two
