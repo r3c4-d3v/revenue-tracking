@@ -17,6 +17,7 @@ import {
     AddBoxIcon,
     FavoriteIcon,
     OptionsProps,
+    FormEventProps,
     BasicDatePicker,
     ApplicationLogo,
     HandleAmountProps,
@@ -68,14 +69,19 @@ const App: React.FC = () => {
                                 <TabPanel index={0} value={selectedTab}>
                                     <Box
                                         sx={Sx.form}
+                                        noValidate
                                         component="form"
                                         autoComplete="off"
+                                        onSubmit={(e: FormEventProps): void => {
+                                            e.preventDefault();
+                                        }}
                                     >
                                         <BasicDatePicker label="Date" />
 
                                         <Box sx={Sx.amountContainer}>
                                             <TextField
                                                 select
+                                                helperText=" "
                                                 defaultValue=""
                                                 label="Currency"
                                                 id="outlined-select-currency"
@@ -94,12 +100,13 @@ const App: React.FC = () => {
 
                                             <TextField
                                                 fullWidth
-                                                label="Amount"
                                                 value={amount}
+                                                label="Amount"
+                                                helperText=" "
                                                 variant="outlined"
                                                 id="outlined-controlled"
-                                                onChange={handleAmountChange}
                                                 inputProps={amountFieldProps}
+                                                onChange={handleAmountChange}
                                             />
                                         </Box>
 
@@ -107,6 +114,7 @@ const App: React.FC = () => {
                                             <TextField
                                                 rows={4}
                                                 multiline
+                                                helperText=" "
                                                 label="Description"
                                                 id="outlined-multiline-description"
                                             />
@@ -114,6 +122,7 @@ const App: React.FC = () => {
 
                                         <Box sx={Sx.buttonsContainer}>
                                             <Button
+                                                type="submit"
                                                 color="success"
                                                 variant="outlined"
                                             >

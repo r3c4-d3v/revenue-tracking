@@ -9,8 +9,11 @@ export const Sx = {
         display: "flex",
         flexDirection: "column",
         padding: 0,
-        gap: "1rem",
         "& .MuiFormControl-root": {
+            width: "100%",
+            margin: 0,
+        },
+        ".MuiFormHelperText-root": {
             width: "100%",
             margin: 0,
         },

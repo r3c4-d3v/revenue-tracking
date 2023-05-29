@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import { OptionsProps } from "@/Barrels/types/app";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import GridOnIcon from "@mui/icons-material/GridOn";
+import { FormEventProps } from "@/Barrels/types/app";
 import { HandleAmountProps } from "@/Barrels/types/app";
 import { InputBaseComponentProps } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -59,4 +60,9 @@ export {
     useTabChangeManager,
 };
 
-export type { InputBaseComponentProps, OptionsProps, HandleAmountProps };
+export type {
+    OptionsProps,
+    FormEventProps,
+    HandleAmountProps,
+    InputBaseComponentProps,
+};

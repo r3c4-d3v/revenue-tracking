@@ -8,3 +8,5 @@ export interface OptionsProps {
 }
 
 export type HandleAmountProps = React.ChangeEvent<HTMLInputElement>;
+
+export type FormEventProps = React.FormEvent<HTMLFormElement>;
