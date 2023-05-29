@@ -7,7 +7,7 @@ import {
 } from "@/Barrels/BasicDatePicker";
 
 const BasicDatePicker = (props: BasicDatePickerProps) => {
-    const { label } = props;
+    const { label} = props;
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>

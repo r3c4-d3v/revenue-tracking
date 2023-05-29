@@ -12,7 +12,7 @@
         relative
         flex
         min-h-screen
-        items-center
+        items-start
         justify-center
         bg-gray-100
         bg-center
@@ -21,11 +21,12 @@
 
         & > .wrapper {
             @apply flex
+            h-screen
+                min-h-screen
             w-full
             max-w-md
             flex-col
-            p-6
-            lg:p-8;
+            py-6;
         }
 
         & > .wrapper > .logo {
@@ -44,7 +45,7 @@
         }
 
         & > .wrapper .content {
-            @apply mt-8
+            @apply mt-5
             flex
             w-full
             gap-6
@@ -60,6 +61,7 @@
             from-gray-700/50
             via-transparent
             p-6
+            pt-3
             shadow-2xl
             shadow-gray-500/20
             focus:outline
@@ -81,7 +83,7 @@
         }
 
         & > .wrapper > .footer > .copyright {
-            @apply pt-5
+            @apply pt-2
             text-center
             text-sm
             text-gray-500
@@ -89,8 +91,9 @@
         }
 
         & > .wrapper > .footer > .copyright > .link {
-            @apply flex flex-col
+            @apply flex
             items-center
+            justify-center
             hover:text-gray-700
             focus:rounded-sm
             focus:outline
@@ -98,17 +101,16 @@
             focus:outline-red-500;
         }
 
-        & > .wrapper > .footer > .copyright > .link > .icon {
-            @apply text-2xl;
-        }
-
         & > .wrapper > .footer > .copyright > .link:hover .icon {
-            @apply text-red-600;
+            @apply flex text-red-600;
         }
 
-        & > .wrapper > .footer > .copyright > .link > .text {
-            @apply mt-1
-            text-sm
+        & > .wrapper > .footer > .copyright > .link > .icon {
+            @apply mr-2 text-sm;
+        }
+
+        & > .wrapper > .footer > .copyright > .link > .description {
+            @apply flex
             leading-relaxed
             text-gray-500;
         }
