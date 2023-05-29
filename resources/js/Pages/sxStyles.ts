@@ -1,4 +1,11 @@
-export const Sx = {
+interface SxProps {
+    tabsContainer: {};
+    form: {};
+    amountContainer: {};
+    buttonsContainer: {};
+}
+
+export const Sx: SxProps = {
     tabsContainer: {
         "& .MuiTextField-root": {
             m: 1,

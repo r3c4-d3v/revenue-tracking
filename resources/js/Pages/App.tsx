@@ -43,13 +43,13 @@ const App: React.FC = () => {
 
     return (
         <React.Fragment>
-            <div className="page-container">
+            <section className="page-container">
                 <div className="wrapper">
                     <ApplicationLogo className="logo" />
                     <h2 className="title">Revenue Tracking</h2>
 
                     <main className="content">
-                        <section className="wrapper">
+                        <div className="wrapper">
                             <Box sx={Sx.tabsContainer}>
                                 <Tabs
                                     aria-label="tabs"
@@ -66,6 +66,7 @@ const App: React.FC = () => {
                                         aria-label="List entries"
                                     />
                                 </Tabs>
+
                                 <TabPanel index={0} value={selectedTab}>
                                     <Box
                                         sx={Sx.form}
@@ -104,7 +105,7 @@ const App: React.FC = () => {
                                                 label="Amount"
                                                 helperText=" "
                                                 variant="outlined"
-                                                id="outlined-controlled"
+                                                id="outlined-amount"
                                                 inputProps={amountFieldProps}
                                                 onChange={handleAmountChange}
                                             />
@@ -116,7 +117,7 @@ const App: React.FC = () => {
                                                 multiline
                                                 helperText=" "
                                                 label="Description"
-                                                id="outlined-multiline-description"
+                                                id="outlined-description"
                                             />
                                         </Box>
 
@@ -131,11 +132,12 @@ const App: React.FC = () => {
                                         </Box>
                                     </Box>
                                 </TabPanel>
+                                
                                 <TabPanel index={1} value={selectedTab}>
                                     Item Two
                                 </TabPanel>
                             </Box>
-                        </section>
+                        </div>
                     </main>
                     <footer className="footer">
                         <div className="copyright">
@@ -151,7 +153,7 @@ const App: React.FC = () => {
                         </div>
                     </footer>
                 </div>
-            </div>
+            </section>
         </React.Fragment>
     );
 };
