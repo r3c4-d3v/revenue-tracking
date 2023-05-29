@@ -1,8 +1,9 @@
+import React, { StrictMode } from "react";
+
 import {
     App,
     Root,
     axios,
-    StrictMode,
     createRoot,
     RootElementProps,
 } from "@/Barrels/Bootstrap";

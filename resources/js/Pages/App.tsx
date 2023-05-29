@@ -1,69 +1,43 @@
 import "../../scss/app.scss";
+import { Sx } from "./sxStyles";
+
+import React from "react";
 
 import {
     Box,
     Tab,
     Tabs,
-    React,
     Button,
     MenuItem,
+    useMasks,
     TabPanel,
     TextField,
+    currencies,
     GridOnIcon,
     AddBoxIcon,
+    FavoriteIcon,
+    OptionsProps,
     BasicDatePicker,
     ApplicationLogo,
+    HandleAmountProps,
     useTabChangeManager,
+    InputBaseComponentProps,
 } from "@/Barrels/App";
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
-
-// @todo Separating inline props from components
-const formatMoney = (value: any) => {
-    let newValue = value.replace(/\D/g, "");
-    newValue = newValue.replace(/^(\d+)(\d{2})$/, "$1.$2");
-    newValue = newValue.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
-
-    if (newValue === "NaN") {
-        return "";
-    }
-
-    return newValue;
+const amountFieldProps: InputBaseComponentProps = {
+    inputMode: "numeric",
+    pattern: "[0-9]*",
 };
 
-const currencies = [
-    {
-        value: "USD",
-        label: "$",
-    },
-    {
-        value: "EUR",
-        label: "€",
-    },
-    {
-        value: "BTC",
-        label: "฿",
-    },
-    {
-        value: "JPY",
-        label: "¥",
-    },
-    {
-        value: "BRL",
-        label: "R$",
-    },
-    {
-        value: "BRL",
-        label: "RTESP",
-    },
-];
-
 const App: React.FC = () => {
+    const { money } = useMasks();
     const { selectedTab, handleTabChange } = useTabChangeManager();
-    const [amount, setAmount] = React.useState();
+    const [amount, setAmount] = React.useState<string>("");
 
-    const handleAmountChange = (event: any) => {
-        setAmount(formatMoney(event.target.value));
+    const handleAmountChange = (event: HandleAmountProps): void => {
+        const { value } = event.target;
+
+        setAmount(money(value));
     };
 
     return (
@@ -75,22 +49,12 @@ const App: React.FC = () => {
 
                     <main className="content">
                         <section className="wrapper">
-                            <Box
-                                component="form"
-                                sx={{
-                                    "& .MuiTextField-root": {
-                                        m: 1,
-                                        width: "6ch",
-                                    },
-                                }}
-                                noValidate
-                                autoComplete="off"
-                            >
+                            <Box sx={Sx.tabsContainer}>
                                 <Tabs
-                                    value={selectedTab}
-                                    variant="fullWidth"
-                                    onChange={handleTabChange}
                                     aria-label="tabs"
+                                    variant="fullWidth"
+                                    value={selectedTab}
+                                    onChange={handleTabChange}
                                 >
                                     <Tab
                                         icon={<AddBoxIcon />}
@@ -103,74 +67,55 @@ const App: React.FC = () => {
                                 </Tabs>
                                 <TabPanel index={0} value={selectedTab}>
                                     <Box
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                            padding: 0,
-                                            gap: "1rem",
-                                            "& .MuiFormControl-root": {
-                                                width: "100%",
-                                                margin: 0,
-                                            },
-                                        }}
+                                        sx={Sx.form}
+                                        component="form"
+                                        autoComplete="off"
                                     >
                                         <BasicDatePicker label="Date" />
-                                        <Box
-                                            sx={{
-                                                flexDirection: "row",
-                                                display: "flex",
-                                                gap: "1rem",
-                                                "& > :first-of-type": {
-                                                    maxWidth: "12ch",
-                                                },
-                                            }}
-                                        >
+
+                                        <Box sx={Sx.amountContainer}>
                                             <TextField
-                                                id="outlined-select-currency"
                                                 select
+                                                defaultValue=""
                                                 label="Currency"
+                                                id="outlined-select-currency"
                                             >
-                                                {currencies.map((option) => (
-                                                    <MenuItem
-                                                        key={option.value}
-                                                        value={option.value}
-                                                    >
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
+                                                {currencies.map(
+                                                    (option: OptionsProps) => (
+                                                        <MenuItem
+                                                            key={option.value}
+                                                            value={option.value}
+                                                        >
+                                                            {option.label}
+                                                        </MenuItem>
+                                                    )
+                                                )}
                                             </TextField>
 
                                             <TextField
-                                                onChange={handleAmountChange}
-                                                inputProps={{
-                                                    inputMode: "numeric",
-                                                    pattern: "[0-9]*",
-                                                }}
                                                 fullWidth
-                                                id="outlined-amount"
                                                 label="Amount"
                                                 value={amount}
                                                 variant="outlined"
+                                                id="outlined-controlled"
+                                                onChange={handleAmountChange}
+                                                inputProps={amountFieldProps}
                                             />
                                         </Box>
+
                                         <Box>
                                             <TextField
-                                                id="outlined-multiline-description"
-                                                label="Description"
-                                                multiline
                                                 rows={4}
-                                                defaultValue=""
+                                                multiline
+                                                label="Description"
+                                                id="outlined-multiline-description"
                                             />
                                         </Box>
-                                        <Box
-                                            sx={{
-                                                display: "flex",
-                                                justifyContent: "flex-end",
-                                            }}
-                                        >
+
+                                        <Box sx={Sx.buttonsContainer}>
                                             <Button
-                                                variant="outlined"
                                                 color="success"
+                                                variant="outlined"
                                             >
                                                 Submit
                                             </Button>
@@ -190,7 +135,9 @@ const App: React.FC = () => {
                                 href="https://github.com/r3c4-d3v"
                             >
                                 <FavoriteIcon className="icon" />
-                                <span className="description">Made with love</span>
+                                <span className="description">
+                                    Made with love
+                                </span>
                             </a>
                         </div>
                     </footer>
