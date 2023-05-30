@@ -1,89 +1,19 @@
 import "../../scss/app.scss";
-import { Sx } from "./sxStyles";
-
 import React from "react";
+
+import { Sx } from "./sxStyles";
 
 import {
     Box,
-    Tab,
-    Tabs,
-    dayjs,
-    Button,
-    TabPanel,
-    TextField,
-    DateField,
-    GridOnIcon,
-    AddBoxIcon,
-    AdapterDayjs,
     FavoriteIcon,
-    EuroSymbolIcon,
-    InputAdornment,
     ApplicationLogo,
-    DescriptionIcon,
-    useReactHookForm,
-    CalendarMonthIcon,
-    useTabChangeManager,
-    DateValidationError,
-    DeleteIcon,
-    LocalizationProvider,
-    DataGrid,
-    columns,
-    rows,
-    Fab,
+    FloatButtons,
+    TabMenu,
+    RegistrationTab,
+    ListingTab,
 } from "@/Barrels/App";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
-import { setTab } from "@/Pages/tabSlice";
-
-const isRequired = { required: true };
-
-const isDecimalRegex = /^[-+]?[0-9]*\.?[0-9]+(,[0-9]+)?$/;
-
-const getError = (dateError: string | null) => {
-    switch (dateError) {
-        case "invalidDate": {
-            return "Date is not valid";
-        }
-
-        default: {
-            return " ";
-        }
-    }
-};
 
 export const App: React.FC = () => {
-    const currentTab = useSelector((state: RootState) => state.tab.currentTab);
-
-    const dispatch = useDispatch<AppDispatch>();
-
-    const [dateError, setDateError] =
-        React.useState<DateValidationError | null>(null);
-
-    const [hasSelection, setHasSelection] = React.useState<boolean>(false);
-
-    const [date, setDate] = React.useState<dayjs.Dayjs | null>(
-        dayjs(new Date())
-    );
-
-    const handleTabChange = (event: React.SyntheticEvent, newValue: number) =>
-        dispatch(setTab(newValue));
-
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-        setValue,
-    } = useReactHookForm();
-
-    const amount = watch("amount", "");
-
-    const errorMessage = React.useMemo(() => getError(dateError), [dateError]);
-
-    React.useEffect(() => setValue("date", date), [date]);
-
-    const onSubmit = (data: any) => console.log(data);
-
     return (
         <React.Fragment>
             <section className="page-container">
@@ -92,143 +22,9 @@ export const App: React.FC = () => {
                     <main className="content">
                         <div className="wrapper">
                             <Box sx={Sx.tabsContainer}>
-                                <Tabs
-                                    aria-label="tabs"
-                                    variant="fullWidth"
-                                    value={currentTab}
-                                    onChange={handleTabChange}
-                                >
-                                    <Tab
-                                        icon={<AddBoxIcon />}
-                                        aria-label="New entry"
-                                    />
-                                    <Tab
-                                        icon={<GridOnIcon />}
-                                        aria-label="List entries"
-                                    />
-                                </Tabs>
-
-                                <TabPanel index={0} value={currentTab}>
-                                    <Box
-                                        noValidate
-                                        sx={Sx.form}
-                                        component="form"
-                                        autoComplete="off"
-                                        onSubmit={handleSubmit(onSubmit)}
-                                    >
-                                        <LocalizationProvider
-                                            dateAdapter={AdapterDayjs}
-                                        >
-                                            <DateField
-                                                label="Date"
-                                                value={date}
-                                                onChange={(newDate) => {
-                                                    setDate(newDate);
-                                                }}
-                                                onError={(newError) =>
-                                                    setDateError(newError)
-                                                }
-                                                slotProps={{
-                                                    textField: {
-                                                        helperText:
-                                                            errorMessage,
-                                                    },
-                                                }}
-                                                InputProps={{
-                                                    startAdornment: (
-                                                        <InputAdornment position="start">
-                                                            <CalendarMonthIcon />
-                                                        </InputAdornment>
-                                                    ),
-                                                }}
-                                            />
-                                        </LocalizationProvider>
-
-                                        <TextField
-                                            fullWidth
-                                            id="amount"
-                                            value={amount}
-                                            label="Amount"
-                                            variant="outlined"
-                                            error={!!errors.amount}
-                                            helperText={
-                                                errors.amount
-                                                    ? "Must be decimal"
-                                                    : " "
-                                            }
-                                            {...register("amount", {
-                                                ...isRequired,
-                                                validate: {
-                                                    isDecimal: (value) =>
-                                                        isDecimalRegex.test(
-                                                            value
-                                                        ),
-                                                },
-                                            })}
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <EuroSymbolIcon />
-                                                    </InputAdornment>
-                                                ),
-                                                inputMode: "numeric",
-                                            }}
-                                        />
-
-                                        <TextField
-                                            rows={4}
-                                            multiline
-                                            label="Description"
-                                            id="outlined-description"
-                                            error={!!errors.desc}
-                                            {...register("desc", {
-                                                ...isRequired,
-                                            })}
-                                            helperText={
-                                                errors.desc
-                                                    ? "Required field"
-                                                    : " "
-                                            }
-                                            InputProps={{
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <DescriptionIcon />
-                                                    </InputAdornment>
-                                                ),
-                                            }}
-                                        />
-
-                                        <Button
-                                            type="submit"
-                                            color="success"
-                                            variant="outlined"
-                                        >
-                                            Submit
-                                        </Button>
-                                    </Box>
-                                </TabPanel>
-
-                                <TabPanel index={1} value={currentTab}>
-                                    <Box sx={{ gap: "1rem" }}>
-                                        <DataGrid
-                                            rows={rows}
-                                            columns={columns}
-                                            onRowSelectionModelChange={() =>
-                                                setHasSelection(!hasSelection)
-                                            }
-                                            initialState={{
-                                                pagination: {
-                                                    paginationModel: {
-                                                        page: 0,
-                                                        pageSize: 5,
-                                                    },
-                                                },
-                                            }}
-                                            pageSizeOptions={[5, 10]}
-                                            checkboxSelection
-                                        />
-                                    </Box>
-                                </TabPanel>
+                                <TabMenu />
+                                <RegistrationTab />
+                                <ListingTab />
                             </Box>
                         </div>
                     </main>
@@ -246,19 +42,7 @@ export const App: React.FC = () => {
                         </div>
                     </footer>
                 </div>
-                {hasSelection && (
-                    <Fab
-                        sx={{
-                            bottom: "2rem",
-                            right: "2rem",
-                            position: "absolute",
-                        }}
-                        color="error"
-                        aria-label="remove"
-                    >
-                        <DeleteIcon />
-                    </Fab>
-                )}
+                <FloatButtons />
             </section>
         </React.Fragment>
     );

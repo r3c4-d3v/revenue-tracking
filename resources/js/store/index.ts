@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import tabSlice from "@/Pages/tabSlice";
+import tabSlice from "@/slices/tabSlice";
+import listingSlice from "@/slices/listingSlice";
 
 const store = configureStore({
     reducer: {
         tab: tabSlice,
+        listing: listingSlice,
     },
 });
 
