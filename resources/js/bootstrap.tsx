@@ -3,7 +3,9 @@ import React, { StrictMode } from "react";
 import {
     App,
     Root,
+    store,
     axios,
+    Provider,
     createRoot,
     RootElementProps,
 } from "@/Barrels/Bootstrap";
@@ -19,7 +21,9 @@ if (rootElement) {
 
     root.render(
         <StrictMode>
-            <App />
+            <Provider store={store}>
+                <App />
+            </Provider>
         </StrictMode>
     );
 }

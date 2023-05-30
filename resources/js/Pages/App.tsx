@@ -31,6 +31,9 @@ import {
     rows,
     Fab,
 } from "@/Barrels/App";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store";
+import { setTab } from "@/Pages/tabSlice";
 
 const isRequired = { required: true };
 
@@ -49,15 +52,21 @@ const getError = (dateError: string | null) => {
 };
 
 export const App: React.FC = () => {
-    const { selectedTab, handleTabChange } = useTabChangeManager();
+    const currentTab = useSelector((state: RootState) => state.tab.currentTab);
+
+    const dispatch = useDispatch<AppDispatch>();
 
     const [dateError, setDateError] =
         React.useState<DateValidationError | null>(null);
+
     const [hasSelection, setHasSelection] = React.useState<boolean>(false);
 
     const [date, setDate] = React.useState<dayjs.Dayjs | null>(
         dayjs(new Date())
     );
+
+    const handleTabChange = (event: React.SyntheticEvent, newValue: number) =>
+        dispatch(setTab(newValue));
 
     const {
         register,
@@ -86,7 +95,7 @@ export const App: React.FC = () => {
                                 <Tabs
                                     aria-label="tabs"
                                     variant="fullWidth"
-                                    value={selectedTab}
+                                    value={currentTab}
                                     onChange={handleTabChange}
                                 >
                                     <Tab
@@ -99,7 +108,7 @@ export const App: React.FC = () => {
                                     />
                                 </Tabs>
 
-                                <TabPanel index={0} value={selectedTab}>
+                                <TabPanel index={0} value={currentTab}>
                                     <Box
                                         noValidate
                                         sx={Sx.form}
@@ -199,7 +208,7 @@ export const App: React.FC = () => {
                                     </Box>
                                 </TabPanel>
 
-                                <TabPanel index={1} value={selectedTab}>
+                                <TabPanel index={1} value={currentTab}>
                                     <Box sx={{ gap: "1rem" }}>
                                         <DataGrid
                                             rows={rows}
