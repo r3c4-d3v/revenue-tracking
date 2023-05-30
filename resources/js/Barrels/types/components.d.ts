@@ -1,4 +1,4 @@
-import { React } from "@/Barrels/App";
+import React from "react";
 import { SVGAttributes } from "react";
 import { DateValidationError } from "@mui/x-date-pickers";
 

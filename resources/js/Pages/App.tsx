@@ -24,7 +24,12 @@ import {
     CalendarMonthIcon,
     useTabChangeManager,
     DateValidationError,
+    DeleteIcon,
     LocalizationProvider,
+    DataGrid,
+    columns,
+    rows,
+    Fab,
 } from "@/Barrels/App";
 
 const isRequired = { required: true };
@@ -43,11 +48,12 @@ const getError = (dateError: string | null) => {
     }
 };
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
     const { selectedTab, handleTabChange } = useTabChangeManager();
 
     const [dateError, setDateError] =
         React.useState<DateValidationError | null>(null);
+    const [hasSelection, setHasSelection] = React.useState<boolean>(false);
 
     const [date, setDate] = React.useState<dayjs.Dayjs | null>(
         dayjs(new Date())
@@ -74,8 +80,6 @@ const App: React.FC = () => {
             <section className="page-container">
                 <div className="wrapper">
                     <ApplicationLogo className="logo" />
-                    <h2 className="title">Revenue Tracking</h2>
-
                     <main className="content">
                         <div className="wrapper">
                             <Box sx={Sx.tabsContainer}>
@@ -133,10 +137,10 @@ const App: React.FC = () => {
 
                                         <TextField
                                             fullWidth
+                                            id="amount"
                                             value={amount}
                                             label="Amount"
                                             variant="outlined"
-                                            id="outlined-amount"
                                             error={!!errors.amount}
                                             helperText={
                                                 errors.amount
@@ -196,7 +200,25 @@ const App: React.FC = () => {
                                 </TabPanel>
 
                                 <TabPanel index={1} value={selectedTab}>
-                                    Item Two
+                                    <Box sx={{ gap: "1rem" }}>
+                                        <DataGrid
+                                            rows={rows}
+                                            columns={columns}
+                                            onRowSelectionModelChange={() =>
+                                                setHasSelection(!hasSelection)
+                                            }
+                                            initialState={{
+                                                pagination: {
+                                                    paginationModel: {
+                                                        page: 0,
+                                                        pageSize: 5,
+                                                    },
+                                                },
+                                            }}
+                                            pageSizeOptions={[5, 10]}
+                                            checkboxSelection
+                                        />
+                                    </Box>
                                 </TabPanel>
                             </Box>
                         </div>
@@ -215,8 +237,20 @@ const App: React.FC = () => {
                         </div>
                     </footer>
                 </div>
+                {hasSelection && (
+                    <Fab
+                        sx={{
+                            bottom: "2rem",
+                            right: "2rem",
+                            position: "absolute",
+                        }}
+                        color="error"
+                        aria-label="remove"
+                    >
+                        <DeleteIcon />
+                    </Fab>
+                )}
             </section>
         </React.Fragment>
     );
 };
-export default App;

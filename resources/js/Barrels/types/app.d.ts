@@ -1,5 +1,4 @@
-import { React } from "@/Barrels/App";
-
+import React from "react";
 export type RootElementProps = HTMLElement | null;
 
 export interface OptionsProps {
