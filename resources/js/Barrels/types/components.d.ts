@@ -1,5 +1,6 @@
 import { React } from "@/Barrels/App";
 import { SVGAttributes } from "react";
+import { DateValidationError } from "@mui/x-date-pickers";
 
 export type LogoProps = SVGAttributes<SVGElement>;
 
@@ -13,7 +14,4 @@ export interface TabPanelProps {
     children: React.ReactNode;
 }
 
-export interface BasicDatePickerProps {
-    label: string;
-    others?: {};
-}
+export type DateErrorProps = DateValidationError;

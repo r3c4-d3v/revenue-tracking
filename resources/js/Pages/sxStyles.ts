@@ -16,12 +16,15 @@ export const Sx: SxProps = {
         display: "flex",
         flexDirection: "column",
         padding: 0,
+        marginTop: "10px",
+        gap: "0.5rem",
         "& .MuiFormControl-root": {
             width: "100%",
             margin: 0,
         },
         ".MuiFormHelperText-root": {
             width: "100%",
+            paddingBottom: "0.3rem",
             margin: 0,
         },
     },

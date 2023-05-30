@@ -7,39 +7,67 @@ import {
     Box,
     Tab,
     Tabs,
+    dayjs,
     Button,
-    MenuItem,
-    useMasks,
     TabPanel,
     TextField,
-    currencies,
+    DateField,
     GridOnIcon,
     AddBoxIcon,
+    AdapterDayjs,
     FavoriteIcon,
-    OptionsProps,
-    FormEventProps,
-    BasicDatePicker,
+    EuroSymbolIcon,
+    InputAdornment,
     ApplicationLogo,
-    HandleAmountProps,
+    DescriptionIcon,
+    useReactHookForm,
+    CalendarMonthIcon,
     useTabChangeManager,
-    InputBaseComponentProps,
+    DateValidationError,
+    LocalizationProvider,
 } from "@/Barrels/App";
 
-const amountFieldProps: InputBaseComponentProps = {
-    inputMode: "numeric",
-    pattern: "[0-9]*",
+const isRequired = { required: true };
+
+const isDecimalRegex = /^[-+]?[0-9]*\.?[0-9]+(,[0-9]+)?$/;
+
+const getError = (dateError: string | null) => {
+    switch (dateError) {
+        case "invalidDate": {
+            return "Date is not valid";
+        }
+
+        default: {
+            return " ";
+        }
+    }
 };
 
 const App: React.FC = () => {
-    const { money } = useMasks();
     const { selectedTab, handleTabChange } = useTabChangeManager();
-    const [amount, setAmount] = React.useState<string>("");
 
-    const handleAmountChange = (event: HandleAmountProps): void => {
-        const { value } = event.target;
+    const [dateError, setDateError] =
+        React.useState<DateValidationError | null>(null);
 
-        setAmount(money(value));
-    };
+    const [date, setDate] = React.useState<dayjs.Dayjs | null>(
+        dayjs(new Date())
+    );
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        watch,
+        setValue,
+    } = useReactHookForm();
+
+    const amount = watch("amount", "");
+
+    const errorMessage = React.useMemo(() => getError(dateError), [dateError]);
+
+    React.useEffect(() => setValue("date", date), [date]);
+
+    const onSubmit = (data: any) => console.log(data);
 
     return (
         <React.Fragment>
@@ -69,70 +97,104 @@ const App: React.FC = () => {
 
                                 <TabPanel index={0} value={selectedTab}>
                                     <Box
-                                        sx={Sx.form}
                                         noValidate
+                                        sx={Sx.form}
                                         component="form"
                                         autoComplete="off"
-                                        onSubmit={(e: FormEventProps): void => {
-                                            e.preventDefault();
-                                        }}
+                                        onSubmit={handleSubmit(onSubmit)}
                                     >
-                                        <BasicDatePicker label="Date" />
-
-                                        <Box sx={Sx.amountContainer}>
-                                            <TextField
-                                                select
-                                                helperText=" "
-                                                defaultValue=""
-                                                label="Currency"
-                                                id="outlined-select-currency"
-                                            >
-                                                {currencies.map(
-                                                    (option: OptionsProps) => (
-                                                        <MenuItem
-                                                            key={option.value}
-                                                            value={option.value}
-                                                        >
-                                                            {option.label}
-                                                        </MenuItem>
-                                                    )
-                                                )}
-                                            </TextField>
-
-                                            <TextField
-                                                fullWidth
-                                                value={amount}
-                                                label="Amount"
-                                                helperText=" "
-                                                variant="outlined"
-                                                id="outlined-amount"
-                                                inputProps={amountFieldProps}
-                                                onChange={handleAmountChange}
+                                        <LocalizationProvider
+                                            dateAdapter={AdapterDayjs}
+                                        >
+                                            <DateField
+                                                label="Date"
+                                                value={date}
+                                                onChange={(newDate) => {
+                                                    setDate(newDate);
+                                                }}
+                                                onError={(newError) =>
+                                                    setDateError(newError)
+                                                }
+                                                slotProps={{
+                                                    textField: {
+                                                        helperText:
+                                                            errorMessage,
+                                                    },
+                                                }}
+                                                InputProps={{
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <CalendarMonthIcon />
+                                                        </InputAdornment>
+                                                    ),
+                                                }}
                                             />
-                                        </Box>
+                                        </LocalizationProvider>
 
-                                        <Box>
-                                            <TextField
-                                                rows={4}
-                                                multiline
-                                                helperText=" "
-                                                label="Description"
-                                                id="outlined-description"
-                                            />
-                                        </Box>
+                                        <TextField
+                                            fullWidth
+                                            value={amount}
+                                            label="Amount"
+                                            variant="outlined"
+                                            id="outlined-amount"
+                                            error={!!errors.amount}
+                                            helperText={
+                                                errors.amount
+                                                    ? "Must be decimal"
+                                                    : " "
+                                            }
+                                            {...register("amount", {
+                                                ...isRequired,
+                                                validate: {
+                                                    isDecimal: (value) =>
+                                                        isDecimalRegex.test(
+                                                            value
+                                                        ),
+                                                },
+                                            })}
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <EuroSymbolIcon />
+                                                    </InputAdornment>
+                                                ),
+                                                inputMode: "numeric",
+                                            }}
+                                        />
 
-                                        <Box sx={Sx.buttonsContainer}>
-                                            <Button
-                                                type="submit"
-                                                color="success"
-                                                variant="outlined"
-                                            >
-                                                Submit
-                                            </Button>
-                                        </Box>
+                                        <TextField
+                                            rows={4}
+                                            multiline
+                                            label="Description"
+                                            id="outlined-description"
+                                            error={!!errors.desc}
+                                            {...register("desc", {
+                                                ...isRequired,
+                                            })}
+                                            helperText={
+                                                errors.desc
+                                                    ? "Required field"
+                                                    : " "
+                                            }
+                                            InputProps={{
+                                                startAdornment: (
+                                                    <InputAdornment position="start">
+                                                        <DescriptionIcon />
+                                                    </InputAdornment>
+                                                ),
+                                            }}
+                                        />
+
+                                        <Button
+                                            type="submit"
+                                            color="success"
+                                            variant="outlined"
+                                        >
+                                            Submit
+                                        </Button>
                                     </Box>
                                 </TabPanel>
-                                
+
                                 <TabPanel index={1} value={selectedTab}>
                                     Item Two
                                 </TabPanel>
