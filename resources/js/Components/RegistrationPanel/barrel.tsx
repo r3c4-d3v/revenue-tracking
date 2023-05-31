@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
+import { Box } from "@mui/material";
 import { Sx } from "@/Pages/sxStyles";
 import { Button } from "@mui/material";
-import { Box } from "@mui/material";
 import ErrorsList from "../ErrorsList";
 import TabPanel from "@/Components/TabPanel";
 import { DateField } from "@mui/x-date-pickers";
@@ -15,9 +15,9 @@ import EuroSymbolIcon from "@mui/icons-material/EuroSymbol";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import { OnChangeProps, OnChangeDateProps } from "@/types/components";
 import { setAmount, setDescription } from "@/slices/registrationSlice";
 import { DateValidationError, LocalizationProvider } from "@mui/x-date-pickers";
-import { OnChangeProps, OnChangeDateProps } from "@/types/components";
 
 export {
     Sx,

@@ -1,7 +1,5 @@
-import { Alert } from "@mui/material";
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { Alert, useSelector, RootState } from "@/Components/ErrorsList/barrel";
 
 const ErrorsList = () => {
     const errors = useSelector((state: RootState) => state.thrownErrors.errors);
