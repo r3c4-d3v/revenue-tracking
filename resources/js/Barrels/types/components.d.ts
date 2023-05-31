@@ -13,5 +13,3 @@ export interface TabPanelProps {
     index: number;
     children: React.ReactNode;
 }
-
-export type DateErrorProps = DateValidationError;

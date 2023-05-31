@@ -4,13 +4,12 @@ import React from "react";
 import { Sx } from "./sxStyles";
 
 import {
-    Box,
     FavoriteIcon,
     ApplicationLogo,
     FloatButtons,
     TabMenu,
-    RegistrationTab,
-    ListingTab,
+    RegistrationPanel,
+    // ListingTab,
 } from "@/Barrels/App";
 
 export const App: React.FC = () => {
@@ -21,11 +20,9 @@ export const App: React.FC = () => {
                     <ApplicationLogo className="logo" />
                     <main className="content">
                         <div className="wrapper">
-                            <Box sx={Sx.tabsContainer}>
-                                <TabMenu />
-                                <RegistrationTab />
-                                <ListingTab />
-                            </Box>
+                            <TabMenu />
+                            <RegistrationPanel />
+                            {/*<ListingTab />*/}
                         </div>
                     </main>
                     <footer className="footer">
@@ -42,7 +39,7 @@ export const App: React.FC = () => {
                         </div>
                     </footer>
                 </div>
-                <FloatButtons />
+                {/*<FloatButtons />*/}
             </section>
         </React.Fragment>
     );

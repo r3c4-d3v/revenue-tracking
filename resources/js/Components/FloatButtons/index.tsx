@@ -1,11 +1,11 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { Fab } from "@mui/material";
+import { useSelector } from "react-redux";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const FloatButtons = () => {
-    const list = useSelector((state: RootState) => state.listing.list);
+    const list = useSelector((state: RootState) => state.data.rows);
 
     return (
         <React.Fragment>

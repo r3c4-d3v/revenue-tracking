@@ -1,87 +1,125 @@
 import React from "react";
-import { Sx } from "@/Pages/sxStyles";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store";
-import TabPanel from "@/Components/TabPanel";
-import TextField from "@mui/material/TextField";
 import {
+    Sx,
+    Box,
+    dayjs,
+    Button,
+    TabPanel,
+    TextField,
+    setAmount,
+    DateField,
+    RootState,
+    useSelector,
+    useDispatch,
+    AppDispatch,
+    AdapterDayjs,
+    setDateErrors,
+    setDescription,
+    EuroSymbolIcon,
+    InputAdornment,
+    DescriptionIcon,
+    CalendarMonthIcon,
+    RegistrationErrors,
     DateValidationError,
     LocalizationProvider,
-    DateField,
-} from "@mui/x-date-pickers";
-import { Box } from "@mui/material";
-import { Button } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import EuroSymbolIcon from "@mui/icons-material/EuroSymbol";
-import InputAdornment from "@mui/material/InputAdornment";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import DescriptionIcon from "@mui/icons-material/Description";
-import { useForm as useReactHookForm } from "react-hook-form";
-import dayjs from "dayjs";
+} from "@/Components/RegistrationTab/barrel";
 
-const isRequired = { required: true };
+const floatRegex: RegExp = /\b([a-zA-Z]+|[.,])\1+\b/g;
 
-const isDecimalRegex = /^[-+]?[0-9]*\.?[0-9]+(,[0-9]+)?$/;
+const finalFloatRegex: RegExp = /^([.,]+)|([.,]+)$|(?<!\d)[.,]|[.,](?!\d)/g;
 
-const getError = (dateError: string | null) => {
-    switch (dateError) {
-        case "invalidDate": {
-            return "Date is not valid";
-        }
+type OnChangeProps = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
 
-        default: {
-            return " ";
-        }
-    }
+type OnChangeDateProps = string | dayjs.Dayjs | null;
+
+const SubmitButton = (): React.JSX.Element => (
+    <Button type="submit" color="success" variant="outlined">
+        Submit
+    </Button>
+);
+
+interface StartAdornmentProps {
+    startAdornment: React.JSX.Element;
+}
+
+const amountAdorment: StartAdornmentProps = {
+    startAdornment: (
+        <InputAdornment position="start">
+            <EuroSymbolIcon />
+        </InputAdornment>
+    ),
 };
 
-const RegistrationTab = () => {
-    const currentTab = useSelector((state: RootState) => state.tab.currentTab);
-    const [dateError, setDateError] =
-        React.useState<DateValidationError | null>(null);
+const descriptionAdorment: StartAdornmentProps = {
+    startAdornment: (
+        <InputAdornment position="start">
+            <DescriptionIcon />
+        </InputAdornment>
+    ),
+};
 
-    const [date, setDate] = React.useState<dayjs.Dayjs | null>(
+const RegistrationPanel = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const [date, setDate] = React.useState<dayjs.Dayjs | string | null>(
         dayjs(new Date())
     );
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        watch,
-        setValue,
-    } = useReactHookForm();
+    const currentTab = useSelector((state: RootState) => state.tab.currentTab);
 
-    const onSubmit = (data: any) => console.log(data);
+    const amount = useSelector(
+        (state: RootState) => state.registrationData.amount
+    );
 
-    const errorMessage = React.useMemo(() => getError(dateError), [dateError]);
+    const description = useSelector(
+        (state: RootState) => state.registrationData.description
+    );
 
-    const amount = watch("amount", "");
+    const onChangeAmount = (event: OnChangeProps): void => {
+        const { value } = event.target;
+        dispatch(setAmount(value.replace(floatRegex, "$1")));
+    };
 
-    React.useEffect(() => setValue("date", date), [date]);
+    const onBlurAmount = (): void => {
+        dispatch(setAmount(amount.replace(finalFloatRegex, "")));
+    };
+
+    const onChangeDescription = (event: OnChangeProps): void => {
+        const { value } = event.target;
+        dispatch(setDescription(value));
+    };
+
+    const handleDateError = (newError: DateValidationError) => {
+        dispatch(setDateErrors(newError));
+    };
+
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        const { target } = event;
+        const formData = new FormData(target as HTMLFormElement);
+
+        console.log(formData.get("amount"));
+        console.log(formData.get("description"));
+        console.log(formData.get("date"));
+    };
 
     return (
         <TabPanel index={0} value={currentTab}>
             <Box
-                noValidate
                 sx={Sx.form}
                 component="form"
                 autoComplete="off"
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit}
             >
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DateField
                         label="Date"
+                        name="date"
                         value={date}
-                        onChange={(newDate) => {
+                        onChange={(newDate: OnChangeDateProps) => {
                             setDate(newDate);
                         }}
-                        onError={(newError) => setDateError(newError)}
-                        slotProps={{
-                            textField: {
-                                helperText: errorMessage,
-                            },
-                        }}
+                        onError={handleDateError}
                         InputProps={{
                             startAdornment: (
                                 <InputAdornment position="start">
@@ -93,54 +131,36 @@ const RegistrationTab = () => {
                 </LocalizationProvider>
 
                 <TextField
+                    required
                     fullWidth
                     id="amount"
-                    value={amount}
                     label="Amount"
+                    value={amount}
+                    name={"amount"}
                     variant="outlined"
-                    error={!!errors.amount}
-                    helperText={errors.amount ? "Must be decimal" : " "}
-                    {...register("amount", {
-                        ...isRequired,
-                        validate: {
-                            isDecimal: (value) => isDecimalRegex.test(value),
-                        },
-                    })}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <EuroSymbolIcon />
-                            </InputAdornment>
-                        ),
-                        inputMode: "numeric",
-                    }}
+                    onBlur={onBlurAmount}
+                    onChange={onChangeAmount}
+                    InputProps={amountAdorment}
                 />
 
                 <TextField
+                    required
                     rows={4}
                     multiline
+                    id="description"
+                    name="description"
                     label="Description"
-                    id="outlined-description"
-                    error={!!errors.desc}
-                    {...register("desc", {
-                        ...isRequired,
-                    })}
-                    helperText={errors.desc ? "Required field" : " "}
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start">
-                                <DescriptionIcon />
-                            </InputAdornment>
-                        ),
-                    }}
+                    value={description}
+                    onChange={onChangeDescription}
+                    InputProps={descriptionAdorment}
                 />
 
-                <Button type="submit" color="success" variant="outlined">
-                    Submit
-                </Button>
+                <RegistrationErrors />
+
+                <SubmitButton />
             </Box>
         </TabPanel>
     );
 };
 
-export default RegistrationTab;
+export default RegistrationPanel;
