@@ -1,11 +1,15 @@
 import React from "react";
-import { RootState } from "@/store";
-import { Fab } from "@mui/material";
-import { useSelector } from "react-redux";
-import DeleteIcon from "@mui/icons-material/Delete";
+import {
+    Fab,
+    RootState,
+    DeleteIcon,
+    useSelector,
+} from "@/Components/FloatButtons/barrel";
 
 const FloatButtons = () => {
-    const toBeDeleted = useSelector((state: RootState) => state.data.toBeDeleted);
+    const toBeDeleted = useSelector(
+        (state: RootState) => state.data.toBeDeleted
+    );
 
     return (
         <React.Fragment>
