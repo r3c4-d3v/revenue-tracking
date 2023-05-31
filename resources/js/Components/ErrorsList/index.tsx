@@ -7,6 +7,7 @@ import {
 } from "@/Components/RegistrationPanel/barrel";
 import { setSuccess } from "@/slices/registrationSlice";
 
+
 const ErrorsList = () => {
     const dispatch = useDispatch<AppDispatch>();
 

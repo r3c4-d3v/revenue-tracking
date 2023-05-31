@@ -28,6 +28,9 @@ import {
 } from "@/Components/RegistrationPanel/barrel";
 import { clearForm, setSuccess } from "@/slices/registrationSlice";
 
+const AMOUNT_ERROR = "Amount field is required.";
+const DESCRIPTION_ERROR = "Description field is required.";
+
 const RegistrationPanel = () => {
     const dispatch = useDispatch<AppDispatch>();
 
@@ -43,6 +46,9 @@ const RegistrationPanel = () => {
 
     const amount = useSelector((state: RootState) => {
         return state.registrationData.amount;
+    });
+    const errors = useSelector((state: RootState) => {
+        return state.registrationData.errors;
     });
 
     const date = useSelector((state: RootState) => {
@@ -117,6 +123,24 @@ const RegistrationPanel = () => {
         console.log("success");
     };
 
+    const amountStyle = {
+        "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: errors.some((error) => error.message === AMOUNT_ERROR)
+                ? "red"
+                : "rgba(221, 0, 0, 0.23)",
+        },
+    };
+
+    const descriptionStyle = {
+        "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: errors.some(
+                (error) => error.message === DESCRIPTION_ERROR
+            )
+                ? "red"
+                : "rgba(221, 0, 0, 0.23)",
+        },
+    };
+
     return (
         <TabPanel index={0} value={currentTab}>
             <Box
@@ -142,6 +166,7 @@ const RegistrationPanel = () => {
                         label="Amount*"
                         value={amount}
                         name={"amount"}
+                        sx={amountStyle}
                         variant="outlined"
                         onBlur={onBlurAmount}
                         onChange={onChangeAmount}
@@ -156,6 +181,7 @@ const RegistrationPanel = () => {
                         variant="outlined"
                         label="Description"
                         value={description}
+                        sx={descriptionStyle}
                         onChange={onDescriptionChange}
                         InputProps={descriptionAdorment}
                     />
