@@ -8,7 +8,7 @@ import {
     TabMenu,
     RegistrationPanel,
     ListingPanel,
-} from "@/Barrels/App";
+} from "@/PageBarrels/App";
 
 export const App: React.FC = () => {
     return (

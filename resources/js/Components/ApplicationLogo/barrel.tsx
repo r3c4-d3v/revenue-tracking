@@ -1,5 +1,5 @@
 import svgShape from "@/Components/ApplicationLogo/SvgShape";
-import { ApplicationLogoSvg, LogoProps } from "@/Barrels/types/components";
+import { ApplicationLogoSvg, LogoProps } from "@/types/components";
 
 export { svgShape };
 
