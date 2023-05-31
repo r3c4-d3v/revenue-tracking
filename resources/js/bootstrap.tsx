@@ -8,7 +8,7 @@ import {
     Provider,
     createRoot,
     RootElementProps,
-} from "@/Barrels/Bootstrap";
+} from "@/barrel";
 
 window.axios = axios;
 
