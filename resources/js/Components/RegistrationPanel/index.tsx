@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
     Sx,
     Box,
@@ -9,17 +10,20 @@ import {
     setAmount,
     DateField,
     RootState,
+    ErrorsList,
     useSelector,
     useDispatch,
     AppDispatch,
     AdapterDayjs,
+    OnChangeProps,
     setDateErrors,
     setDescription,
     EuroSymbolIcon,
     InputAdornment,
     DescriptionIcon,
     CalendarMonthIcon,
-    ErrorsList,
+    OnChangeDateProps,
+    StartAdornmentProps,
     DateValidationError,
     LocalizationProvider,
 } from "@/Components/RegistrationPanel/barrel";
@@ -28,19 +32,11 @@ const floatRegex: RegExp = /\b([a-zA-Z]+|[.,])\1+\b/g;
 
 const finalFloatRegex: RegExp = /^([.,]+)|([.,]+)$|(?<!\d)[.,]|[.,](?!\d)/g;
 
-type OnChangeProps = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>;
-
-type OnChangeDateProps = string | dayjs.Dayjs | null;
-
 const SubmitButton = (): React.JSX.Element => (
     <Button type="submit" color="success" variant="outlined">
         Submit
     </Button>
 );
-
-interface StartAdornmentProps {
-    startAdornment: React.JSX.Element;
-}
 
 const amountAdorment: StartAdornmentProps = {
     startAdornment: (
