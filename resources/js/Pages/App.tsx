@@ -6,10 +6,10 @@ import { Sx } from "./sxStyles";
 import {
     FavoriteIcon,
     ApplicationLogo,
-    FloatButtons,
+    // FloatButtons,
     TabMenu,
     RegistrationPanel,
-    // ListingTab,
+    ListingTab,
 } from "@/Barrels/App";
 
 export const App: React.FC = () => {
@@ -22,7 +22,7 @@ export const App: React.FC = () => {
                         <div className="wrapper">
                             <TabMenu />
                             <RegistrationPanel />
-                            {/*<ListingTab />*/}
+                            <ListingTab />
                         </div>
                     </main>
                     <footer className="footer">
