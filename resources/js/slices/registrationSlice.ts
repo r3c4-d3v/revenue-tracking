@@ -5,8 +5,12 @@ import {
     DateErrorProps,
 } from "@/Components/RegistrationPanel/barrel";
 
+const AMOUNT_ERROR = "Amount field is required.";
+const DESCRIPTION_ERROR = "Description field is required.";
+
 interface RegistrationProps {
     amount: string;
+    success: boolean;
     description: string;
     date: string | null;
     errors: CustomError[];
@@ -18,6 +22,7 @@ const initialState: RegistrationProps = {
     amount: "",
     date: null,
     errors: [],
+    success: false,
     description: "",
     dateErrors: null,
     dateErrorMessage: "",
@@ -29,35 +34,64 @@ const registrationSlice = createSlice({
     reducers: {
         setAmount: (state, action: PayloadAction<string>): void => {
             state.amount = action.payload;
+            state.success = false;
 
             if (state.amount.length > 0) {
                 state.errors = state.errors.filter((error) => {
-                    return error.message !== "Amount field is required.";
+                    return error.message !== AMOUNT_ERROR;
                 });
             } else {
-                state.errors.push({
-                    message: "Amount field is required.",
+                const hasInErrors = state.errors.some((error) => {
+                    return error.message === AMOUNT_ERROR;
                 });
+
+                if (!hasInErrors) {
+                    state.errors.push({
+                        message: AMOUNT_ERROR,
+                    });
+                }
             }
         },
         setDescription: (state, action: PayloadAction<string>): void => {
             state.description = action.payload;
+            state.success = false;
 
             if (state.description.length > 0) {
                 state.errors = state.errors.filter((error) => {
-                    return error.message !== "Description field is required.";
+                    return error.message !== DESCRIPTION_ERROR;
                 });
             } else {
-                state.errors.push({
-                    message: "Description field is required.",
+                const hasInErrors = state.errors.some((error) => {
+                    return error.message === DESCRIPTION_ERROR;
                 });
+                if (!hasInErrors) {
+                    state.errors.push({
+                        message: DESCRIPTION_ERROR,
+                    });
+                }
             }
         },
         setDate: (state, action: PayloadAction<string>): void => {
             state.date = action.payload;
+            state.success = false;
+        },
+        clearForm: (state): void => {
+            state.date = null;
+            state.amount = "";
+            state.description = "";
+            state.errors = [];
+        },
+        setSuccess: (state, action: PayloadAction<boolean>): void => {
+            state.success = action.payload;
         },
         setErrors: (state, action: PayloadAction<CustomError>) => {
-            state.errors.push({ message: action.payload.message });
+            const hasInErrors = state.errors.some((error) => {
+                return error.message === action.payload.message;
+            });
+
+            if (!hasInErrors) {
+                state.errors.push({ message: action.payload.message });
+            }
         },
         setDateErrors: (state, action: PayloadAction<DateErrorProps>): void => {
             switch (action.payload) {
@@ -74,7 +108,14 @@ const registrationSlice = createSlice({
     },
 });
 
-export const { setDateErrors, setErrors, setAmount, setDescription, setDate } =
-    registrationSlice.actions;
+export const {
+    setDate,
+    clearForm,
+    setErrors,
+    setAmount,
+    setSuccess,
+    setDateErrors,
+    setDescription,
+} = registrationSlice.actions;
 
 export default registrationSlice.reducer;

@@ -24,7 +24,9 @@ import {
     DateValidationError,
     descriptionAdorment,
     LocalizationProvider,
+    setErrors,
 } from "@/Components/RegistrationPanel/barrel";
+import { clearForm, setSuccess } from "@/slices/registrationSlice";
 
 const RegistrationPanel = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -32,6 +34,12 @@ const RegistrationPanel = () => {
     const currentTab = useSelector((state: RootState) => {
         return state.tab.currentTab;
     });
+
+    const setDateToday = (): void => {
+        if (!date) {
+            dispatch(setDate(dayjs(new Date()).format()));
+        }
+    };
 
     const amount = useSelector((state: RootState) => {
         return state.registrationData.amount;
@@ -41,16 +49,15 @@ const RegistrationPanel = () => {
         return state.registrationData.date;
     });
 
-    const errors = useSelector((state: RootState) => {
-        return state.registrationData.errors;
-    });
-
     const description = useSelector((state: RootState) => {
         return state.registrationData.description;
     });
 
     const onChangeAmount = (event: OnChangeProps): void => {
         const { value } = event.target;
+
+        setDateToday();
+
         dispatch(setAmount(value.replace(floatRegex, "$1")));
     };
 
@@ -60,6 +67,9 @@ const RegistrationPanel = () => {
 
     const onDescriptionChange = (event: OnChangeProps): void => {
         const { value } = event.target;
+
+        setDateToday();
+
         dispatch(setDescription(value));
     };
 
@@ -73,10 +83,36 @@ const RegistrationPanel = () => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        if (errors.length > 0) {
-            console.log("error");
+
+        if (!date) {
+            dispatch(setDate(dayjs(new Date()).format()));
+        }
+
+        if (!amount) {
+            dispatch(
+                setErrors({
+                    message: "Amount field is required.",
+                })
+            );
             return;
         }
+
+        if (!description) {
+            dispatch(
+                setErrors({
+                    message: "Description field is required.",
+                })
+            );
+            return;
+        }
+
+        if (!amount || !description) {
+            return;
+        }
+
+        dispatch(clearForm());
+
+        dispatch(setSuccess(true));
 
         console.log("success");
     };
