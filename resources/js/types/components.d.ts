@@ -1,6 +1,5 @@
 import React from "react";
 import { SVGAttributes } from "react";
-import { DateValidationError } from "@mui/x-date-pickers";
 import {dayjs} from "@/Components/RegistrationPanel/barrel";
 
 export type LogoProps = SVGAttributes<SVGElement>;
