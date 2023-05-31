@@ -9,6 +9,7 @@ interface RowsProps {
 
 interface ListingProps {
     rows: RowsProps[];
+    toBeDeleted: RowsProps[];
 }
 
 const initialState: ListingProps = {
@@ -23,6 +24,7 @@ const initialState: ListingProps = {
         { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
         { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
     ],
+    toBeDeleted: [],
 };
 
 const dataSlice = createSlice({

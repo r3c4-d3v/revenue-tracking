@@ -5,11 +5,11 @@ import { useSelector } from "react-redux";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const FloatButtons = () => {
-    const list = useSelector((state: RootState) => state.data.rows);
+    const toBeDeleted = useSelector((state: RootState) => state.data.toBeDeleted);
 
     return (
         <React.Fragment>
-            {list.length > 0 && (
+            {toBeDeleted.length > 0 && (
                 <Fab
                     sx={{
                         bottom: "2rem",

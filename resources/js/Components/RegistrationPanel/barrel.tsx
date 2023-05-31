@@ -12,7 +12,7 @@ import { setDateErrors } from "@/slices/thrownErrorsSlice";
 import EuroSymbolIcon from "@mui/icons-material/EuroSymbol";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import RegistrationErrors from "@/Components/RegistrationErrors";
+import ErrorsList from "../ErrorsList";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { setAmount, setDescription } from "@/slices/registrationSlice";
 import { DateValidationError, LocalizationProvider } from "@mui/x-date-pickers";
@@ -35,7 +35,7 @@ export {
     InputAdornment,
     DescriptionIcon,
     CalendarMonthIcon,
-    RegistrationErrors,
+    ErrorsList,
     LocalizationProvider,
 };
 

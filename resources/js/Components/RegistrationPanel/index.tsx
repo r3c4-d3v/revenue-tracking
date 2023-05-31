@@ -19,10 +19,10 @@ import {
     InputAdornment,
     DescriptionIcon,
     CalendarMonthIcon,
-    RegistrationErrors,
+    ErrorsList,
     DateValidationError,
     LocalizationProvider,
-} from "@/Components/RegistrationTab/barrel";
+} from "@/Components/RegistrationPanel/barrel";
 
 const floatRegex: RegExp = /\b([a-zA-Z]+|[.,])\1+\b/g;
 
@@ -155,7 +155,7 @@ const RegistrationPanel = () => {
                     InputProps={descriptionAdorment}
                 />
 
-                <RegistrationErrors />
+                <ErrorsList />
 
                 <SubmitButton />
             </Box>

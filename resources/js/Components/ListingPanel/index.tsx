@@ -26,7 +26,7 @@ const columns = [
     },
 ];
 
-const ListingTab = () => {
+const ListingPanel = () => {
     const currentTab = useSelector((state: RootState) => state.tab.currentTab);
     const rows = useSelector((state: RootState) => state.data.rows);
 
@@ -57,4 +57,4 @@ const ListingTab = () => {
     );
 };
 
-export default ListingTab;
+export default ListingPanel;

@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 
-const RegistrationErrors = () => {
+const ErrorsList = () => {
     const errors = useSelector((state: RootState) => state.thrownErrors.errors);
     const dateErrorMessage = useSelector(
         (state: RootState) => state.thrownErrors.dateErrorMessage
@@ -38,4 +38,4 @@ const RegistrationErrors = () => {
     );
 };
 
-export default RegistrationErrors;
+export default ErrorsList;
