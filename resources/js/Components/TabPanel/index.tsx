@@ -1,4 +1,8 @@
-import { TabPanelProps, TabPanelElement, Box } from "@/Barrels/TabPanel";
+import {
+    TabPanelProps,
+    TabPanelElement,
+    Box,
+} from "@/Components/TabPanel/barrel";
 
 const TabPanel = (props: TabPanelProps): TabPanelElement => {
     const { value, index, children } = props;

@@ -1,8 +1,6 @@
 import "../../scss/app.scss";
 import React from "react";
 
-import { Sx } from "./sxStyles";
-
 import {
     FavoriteIcon,
     ApplicationLogo,
