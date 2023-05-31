@@ -1,14 +1,14 @@
-import { configureStore } from "@reduxjs/toolkit";
-import tabSlice from "@/slices/tabSlice";
-import dataSlice from "@/slices/dataSlice";
-import thrownErrorsSlice from "@/slices/thrownErrorsSlice";
-import registrationSlice from "@/slices/registrationSlice";
+import {
+    tabSlice,
+    dataSlice,
+    configureStore,
+    registrationSlice,
+} from "@/store/barrels";
 
 const store = configureStore({
     reducer: {
         tab: tabSlice,
         data: dataSlice,
-        thrownErrors: thrownErrorsSlice,
         registrationData: registrationSlice,
     },
 });

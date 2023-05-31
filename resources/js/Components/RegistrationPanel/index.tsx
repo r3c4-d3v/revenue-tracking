@@ -1,75 +1,53 @@
-import React from "react";
-
 import {
-    Sx,
     Box,
     dayjs,
-    Button,
+    React,
+    setDate,
     TabPanel,
     TextField,
     setAmount,
-    DateField,
     RootState,
     ErrorsList,
+    DatePicker,
+    floatRegex,
     useSelector,
     useDispatch,
     AppDispatch,
+    SubmitButton,
     AdapterDayjs,
     OnChangeProps,
     setDateErrors,
     setDescription,
-    EuroSymbolIcon,
-    InputAdornment,
-    DescriptionIcon,
-    CalendarMonthIcon,
+    amountAdorment,
+    finalFloatRegex,
     OnChangeDateProps,
-    StartAdornmentProps,
     DateValidationError,
+    descriptionAdorment,
     LocalizationProvider,
 } from "@/Components/RegistrationPanel/barrel";
-
-const floatRegex: RegExp = /\b([a-zA-Z]+|[.,])\1+\b/g;
-
-const finalFloatRegex: RegExp = /^([.,]+)|([.,]+)$|(?<!\d)[.,]|[.,](?!\d)/g;
-
-const SubmitButton = (): React.JSX.Element => (
-    <Button type="submit" color="success" variant="outlined">
-        Submit
-    </Button>
-);
-
-const amountAdorment: StartAdornmentProps = {
-    startAdornment: (
-        <InputAdornment position="start">
-            <EuroSymbolIcon />
-        </InputAdornment>
-    ),
-};
-
-const descriptionAdorment: StartAdornmentProps = {
-    startAdornment: (
-        <InputAdornment position="start">
-            <DescriptionIcon />
-        </InputAdornment>
-    ),
-};
 
 const RegistrationPanel = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const [date, setDate] = React.useState<dayjs.Dayjs | string | null>(
-        dayjs(new Date())
-    );
+    const currentTab = useSelector((state: RootState) => {
+        return state.tab.currentTab;
+    });
 
-    const currentTab = useSelector((state: RootState) => state.tab.currentTab);
+    const amount = useSelector((state: RootState) => {
+        return state.registrationData.amount;
+    });
 
-    const amount = useSelector(
-        (state: RootState) => state.registrationData.amount
-    );
+    const date = useSelector((state: RootState) => {
+        return state.registrationData.date;
+    });
 
-    const description = useSelector(
-        (state: RootState) => state.registrationData.description
-    );
+    const errors = useSelector((state: RootState) => {
+        return state.registrationData.errors;
+    });
+
+    const description = useSelector((state: RootState) => {
+        return state.registrationData.description;
+    });
 
     const onChangeAmount = (event: OnChangeProps): void => {
         const { value } = event.target;
@@ -80,9 +58,13 @@ const RegistrationPanel = () => {
         dispatch(setAmount(amount.replace(finalFloatRegex, "")));
     };
 
-    const onChangeDescription = (event: OnChangeProps): void => {
+    const onDescriptionChange = (event: OnChangeProps): void => {
         const { value } = event.target;
         dispatch(setDescription(value));
+    };
+
+    const onDateChange = (newDate: OnChangeDateProps) => {
+        dispatch(setDate(dayjs(newDate).format()));
     };
 
     const handleDateError = (newError: DateValidationError) => {
@@ -91,69 +73,61 @@ const RegistrationPanel = () => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        const { target } = event;
-        const formData = new FormData(target as HTMLFormElement);
+        if (errors.length > 0) {
+            console.log("error");
+            return;
+        }
 
-        console.log(formData.get("amount"));
-        console.log(formData.get("description"));
-        console.log(formData.get("date"));
+        console.log("success");
     };
 
     return (
         <TabPanel index={0} value={currentTab}>
             <Box
-                sx={Sx.form}
+                noValidate
                 component="form"
                 autoComplete="off"
                 onSubmit={handleSubmit}
             >
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DateField
-                        label="Date"
-                        name="date"
-                        value={date}
-                        onChange={(newDate: OnChangeDateProps) => {
-                            setDate(newDate);
-                        }}
-                        onError={handleDateError}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <CalendarMonthIcon />
-                                </InputAdornment>
-                            ),
-                        }}
+                <div className="mt-3 flex flex-col gap-3">
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            label="Date*"
+                            disableFuture
+                            value={date ? dayjs(date) : dayjs(new Date())}
+                            onChange={onDateChange}
+                            onError={handleDateError}
+                        />
+                    </LocalizationProvider>
+
+                    <TextField
+                        fullWidth
+                        id="amount"
+                        label="Amount*"
+                        value={amount}
+                        name={"amount"}
+                        variant="outlined"
+                        onBlur={onBlurAmount}
+                        onChange={onChangeAmount}
+                        InputProps={amountAdorment}
                     />
-                </LocalizationProvider>
 
-                <TextField
-                    required
-                    fullWidth
-                    id="amount"
-                    label="Amount"
-                    value={amount}
-                    name={"amount"}
-                    variant="outlined"
-                    onBlur={onBlurAmount}
-                    onChange={onChangeAmount}
-                    InputProps={amountAdorment}
-                />
+                    <TextField
+                        rows={4}
+                        multiline
+                        id="description"
+                        name="description"
+                        variant="outlined"
+                        label="Description"
+                        value={description}
+                        onChange={onDescriptionChange}
+                        InputProps={descriptionAdorment}
+                    />
 
-                <TextField
-                    required
-                    rows={4}
-                    multiline
-                    id="description"
-                    name="description"
-                    label="Description"
-                    value={description}
-                    onChange={onChangeDescription}
-                    InputProps={descriptionAdorment}
-                />
+                    <ErrorsList />
 
-                <ErrorsList />
-
-                <SubmitButton />
+                    <SubmitButton />
+                </div>
             </Box>
         </TabPanel>
     );

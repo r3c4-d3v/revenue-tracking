@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface TabProps {
-    currentTab: any;
+    currentTab: number;
 }
 
 const initialState: TabProps = {

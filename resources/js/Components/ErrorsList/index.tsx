@@ -2,30 +2,21 @@ import React from "react";
 import { Alert, useSelector, RootState } from "@/Components/ErrorsList/barrel";
 
 const ErrorsList = () => {
-    const errors = useSelector((state: RootState) => state.thrownErrors.errors);
+    const errors = useSelector(
+        (state: RootState) => state.registrationData.errors
+    );
+
     const dateErrorMessage = useSelector(
-        (state: RootState) => state.thrownErrors.dateErrorMessage
+        (state: RootState) => state.registrationData.dateErrorMessage
     );
 
     return (
         <React.Fragment>
-            {errors.desc && (
+            {errors.map((error) => (
                 <Alert severity="error" sx={{ width: "100%" }}>
-                    Description field is required
+                    {error.message}
                 </Alert>
-            )}
-
-            {errors.amount && (
-                <Alert severity="error" sx={{ width: "100%" }}>
-                    Amount field is required
-                </Alert>
-            )}
-
-            {errors.amount?.type === "isDecimal" && (
-                <Alert severity="error" sx={{ width: "100%" }}>
-                    Amount must be decimal
-                </Alert>
-            )}
+            ))}
 
             {dateErrorMessage === "Date is not valid" && (
                 <Alert severity="error" sx={{ width: "100%" }}>
